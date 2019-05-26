@@ -169,9 +169,9 @@ public class AppointmentsDao extends ConnectionDao {
         }
     }
     
-    public AppointmentClass getAppointmentByDoctorId(int doctorId) throws Exception {
+    public ArrayList<AppointmentClass> getAppointmentByDoctorId(int doctorId) throws Exception {
         try {   
-            AppointmentClass appointment = null;
+            ArrayList<AppointmentClass> appointments = new ArrayList<>();
             Connection conn = getConnection();
 
             String sql = "SELECT * FROM APPOINTMENT "
@@ -185,13 +185,13 @@ public class AppointmentsDao extends ConnectionDao {
             ResultSet rs = ps.executeQuery();           
 
             while (rs.next()) {
-                appointment = populateAppointments(rs);
+                appointments.add(populateAppointments(rs));
             }
 
             rs.close();
             ps.close();
             
-            return appointment;            
+            return appointments;            
         } catch (SQLException e) {
             throw new SQLException(e.getMessage());
         }

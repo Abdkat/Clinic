@@ -49,7 +49,7 @@ public class ManageScheduleBean implements Serializable{
             appointments.add(app);
             Logger.getLogger(ManageScheduleBean.class.getName()).log(Level.SEVERE, null, "Abdullah");
             */
-            appointments = appointmentsDao.buildAppointments();   
+            appointments = appointmentsDao.getAppointmentByDoctorId(sessionBean.getDoctorId());
             // System.out.println("got appointments ");
         } catch (Exception ex) {
             Logger.getLogger(ManageScheduleBean.class.getName()).log(Level.SEVERE, null, "Abdullah 111");
