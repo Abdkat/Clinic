@@ -10,7 +10,6 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import models.AppointmentClass;
-import java.util.Date;
 /**
  *
  * @author Firas.Alhawari
