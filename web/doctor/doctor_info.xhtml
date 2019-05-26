@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>#{msgs.welcome_msg}</title>          
+    </h:head>
+    <h:body>
+        <ui:decorate template="/app_templates/app_template_doctor.xhtml">
+            <h:form id="doctor_info">            
+                <p:messages id="msgs" closable="true" globalOnly="true"/>
+
+                <p:panel header="#{msgs.doctor_info}"                            
+                         style="min-height:400px; 
+                                direction:#{langBean.dir};margin-top:10px; font-size:10pt">
+                    <h:panelGrid id="info"
+                                 style="float: #{langBean.styleFloat};" 
+                                 columns="3"                              
+                                 dir="#{langBean.dir}">
+                        <p:outputLabel value="#{msgs.doctor_name}:" for="doctor_name"/>
+                        <p:inputText id="doctor_name"
+                                     style="width:600px"
+                                     value="#{doctorInfoBean.doctorName}"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage="#{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="doctor_name" styleClass="errorMsg"/>
+                        
+                        <p:outputLabel value="#{msgs.username}:" for="username"/>
+                        <p:inputText id="username"
+                                     value="#{doctorInfoBean.username}"
+                                     style="width:600px"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage=" #{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="username" styleClass="errorMsg"/>       
+                        
+                        <p:outputLabel value="#{msgs.password}:" for="password"/>
+                        <p:inputText id="password"
+                                     value="#{doctorInfoBean.password}"
+                                     style="width:600px"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage=" #{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="password" styleClass="errorMsg"/> 
+                        
+                        <p:outputLabel value="#{msgs.phone}:" for="phone"/>
+                        <p:inputText id="phone"
+                                     value="#{doctorInfoBean.phone}"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="20"  
+                                     requiredMessage="#{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="phone" styleClass="errorMsg"/>        
+                        
+                        <p:outputLabel value="#{msgs.description}:" for="description"/>
+                        <p:inputText id="description"
+                                     value="#{doctorInfoBean.description}"
+                                     style="width:600px"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage=" #{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="description" styleClass="errorMsg"/>              
+
+                        <p:outputLabel value="#{msgs.work_hours}:" for="work_hours"/>
+                        <p:inputText id="work_hours"
+                                     value="#{doctorInfoBean.workHours}"
+                                     style="width:600px"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage=" #{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="work_hours" styleClass="errorMsg"/>       
+
+                        <p:outputLabel value="#{msgs.specialization}:" for="specialization"/>
+                        <p:inputText id="specialization"
+                                     value="#{doctorInfoBean.specialization}"
+                                     style="width:600px"
+                                     dir="#{langBean.dir}"
+                                     required="true"
+                                     maxlength="512"
+                                     requiredMessage=" #{msgs.required_msg}">
+                        </p:inputText>
+                        <h:message for="specialization" styleClass="errorMsg"/>
+                        
+                        
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:commandButton value="#{msgs.save}"
+                                 styleClass="commandButton"
+                                 icon="ui-icon-disk"
+                                 iconPos="#{langBean.styleFloat}"
+                                 ajax="false"
+                                 style="float:#{langBean.styleFloat}" 
+                                 disabled="#{doctorInfoBean.isUpdated}"
+                                 actionListener="#{doctorInfoBean.saveDoctor()}" />
+                
+                                                 
+            </h:form>
+        </ui:decorate>
+    </h:body>
+</html>
+
