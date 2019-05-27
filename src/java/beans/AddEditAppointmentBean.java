@@ -59,7 +59,7 @@ public class AddEditAppointmentBean implements Serializable{
                 confirmed = appointment.getConfirmed();
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddEditAppointmentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -173,7 +173,7 @@ public class AddEditAppointmentBean implements Serializable{
                 appointmentsDao.insertAppointment(appointment);
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddEditAppointmentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         sessionBean.navigate("manage_schedule");

@@ -47,7 +47,7 @@ public class AddActionPlanBean implements Serializable{
                 price = appointment.getPrice();
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddActionPlanBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,7 +101,7 @@ public class AddActionPlanBean implements Serializable{
                 appointment = appointmentsDao.getAppointmentById(appointmentId);
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddActionPlanBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             System.out.print(this.actionPlan);
@@ -112,7 +112,7 @@ public class AddActionPlanBean implements Serializable{
                 appointmentsDao.insertAppointment(appointment);
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddActionPlanBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         sessionBean.navigate("manage_schedule");

@@ -78,7 +78,7 @@ public class ReserveAppointmentBean implements Serializable{
                 //confirmed = doctor.getConfirmed();
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReserveAppointmentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -252,7 +252,7 @@ public class ReserveAppointmentBean implements Serializable{
             
             }
         } catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReserveAppointmentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         sessionBean.navigate("manage_schedule");
@@ -318,7 +318,7 @@ public class ReserveAppointmentBean implements Serializable{
             }
         }
         catch (Exception ex) {
-            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReserveAppointmentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         System.out.print("THE DATE IS FINE.");
