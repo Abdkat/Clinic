@@ -10,6 +10,7 @@
         <title>#{msgs.add_appointment}</title>
     </h:head>
     <h:body>
+        
         <ui:decorate template="/app_templates/app_template_patient.xhtml">  
             <h:form id="add_appointment">            
                 <p:messages id="msgs" closable="true" globalOnly="true"/>
@@ -34,18 +35,23 @@
                         <p:outputLabel id="phone" value="#{reserveAppointmentBean.phone}"/>
                         <h:message for="phone" styleClass="errorMsg"/>        
                         
-                        <p:outputLabel value="#{msgs.work_hours}:" for="work_hours"/>
-                        <p:outputLabel id="work_hours" value="#{reserveAppointmentBean.workHours}"/>
-                        <h:message for="work_hours" styleClass="errorMsg"/>               
+                        <p:outputLabel value="#{msgs.work_hours_days}:" for="work_hours_days"/>
+                        <p:outputLabel id="work_hours_days" value="#{reserveAppointmentBean.workhoursDays}"/>
+                        <h:message for="work_hours_days" styleClass="errorMsg"/>               
      
-
+                        <p:outputLabel value="#{msgs.work_hours_time}:" for="work_hours_time"/>
+                        <p:outputLabel id="work_hours_time" value="#{reserveAppointmentBean.workhoursTime}"/>
+                        <h:message for="work_hours_time" styleClass="errorMsg"/>
+                        
                         <p:outputLabel value="#{msgs.specialization}:" for="specialization"/>
                         <p:outputLabel id="specialization" value="#{reserveAppointmentBean.specialization}"/>
                         <h:message for="specialization" styleClass="errorMsg"/>
-
+                        
                         <p:outputLabel value="#{msgs.date}:" for="date"/>
                         <p:calendar id="date"
-                                    value="#{ReserveAppointmentBean.date}"
+                                    minHour="#{reserveAppointmentBean.workHours.substring(reserveAppointmentBean.workHours.indexOf('*')+1, reserveAppointmentBean.workHours.indexOf('/'))}"
+                                    maxHour="#{reserveAppointmentBean.workHours.substring(reserveAppointmentBean.workHours.indexOf('/')+1)}"
+                                    value="#{reserveAppointmentBean.date}"
                                     dir="#{langBean.dir}"
                                     pattern="yyyy-MM-dd HH:mm" 
                                     navigator="true"
@@ -54,6 +60,7 @@
                                     timeInput="true"
                                     requiredMessage=" #{msgs.required_msg}"/> 
                         <h:message for="date" styleClass="errorMsg"/>
+                        <p:outputLabel value="#{reserveAppointmentBean.errorMsg}" styleClass="errorMsg"/>
                         
                     </h:panelGrid>
                 </p:panel>
@@ -62,9 +69,9 @@
                                  styleClass="commandButton"
                                  icon="ui-icon-disk"
                                  iconPos="#{langBean.styleFloat}"
-                                 ajax="false"
+                                 ajax="true"
                                  style="float:#{langBean.styleFloat}"                                                                   
-                                 actionListener="#{ReserveAppointmentBean.saveAppointment()}" />
+                                 actionListener="#{reserveAppointmentBean.saveAppointment()}"/>
                 <p:commandButton value="#{msgs.cancel}"
                                  icon="ui-icon-cancel"  
                                  iconPos="#{langBean.styleFloat}"

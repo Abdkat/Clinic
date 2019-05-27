@@ -17,6 +17,7 @@ import daos.PatientDao;
 import models.DoctorClass;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -45,7 +46,9 @@ public class ReserveAppointmentBean implements Serializable{
     private String actionPlan;
     private Boolean confirmed;  
     private String specialization;
-    
+    private String workhoursDays;
+    private String workhoursTime;
+    private String errorMsg;
     @Inject
     private SessionBean sessionBean;
     
@@ -64,10 +67,12 @@ public class ReserveAppointmentBean implements Serializable{
                 phone = doctor.getPhone();
                 clinicName = doctor.getClinic().getName();
                 workHours = doctor.getWorkHours();
-                //price = doctor.getPrice();             // must be added as a doctor table column
+                specialization = doctor.getSpecialization();
+                workhoursDays = "";             // must be added as a doctor table column
                 price = 50;
                 durationMinutes = 30;
                 confirmed = false;
+                errorMsg = "";
                 //durationMinutes = doctor.getDurationMinutes();
                 //actionPlan = doctor.getActionPlan();
                 //confirmed = doctor.getConfirmed();
@@ -93,10 +98,35 @@ public class ReserveAppointmentBean implements Serializable{
         this.workHours = workHours;
     }
 
+    public String getWorkhoursDays() {
+        String[] daysofweek = {"Su","Mo","Tu","We","Th","Fr","Sa"};
+        for(int i=0;i<this.workHours.indexOf('*');i++){
+            if(workHours.charAt(i)=='1'){
+                workhoursDays = workhoursDays+daysofweek[i]+" ";
+            }
+        }
+        return workhoursDays;
+    }
+    
+    public String getWorkhoursTime() {
+        workhoursTime = "From: "+workHours.substring( workHours.indexOf('*')+1,workHours.indexOf('/'))
+                      + " to "+workHours.substring( workHours.indexOf('/')+1);
+        return workhoursTime;
+    }
+
+    
     public PatientClass getPatient() {
         return patient;
     }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+    
     public void setPatient(PatientClass patient) {
         this.patient = patient;
     }
@@ -210,8 +240,17 @@ public class ReserveAppointmentBean implements Serializable{
             appointment.setConfirmed(confirmed);
             //appointment.setDate(new Timestamp(date.getTime()));
             appointment.setDate(date);
+            if(checkIfTimeOverlaps(doctor.getDoctorId(), appointment.getDurationMinutes(), appointment.getDate()) &&
+                    checkIfTimeFits(doctor.getWorkHours(), date))
+            {
+                appointmentsDao.insertAppointment(appointment);
+                sessionBean.navigate("/patient/my_appointments");
+            }
+            else {                
+                sessionBean.navigate("reserve_appointment"); //CHANGE THIS TO SHOW THE USER AN ERROR SAYING BAD TIME
+                errorMsg = "Date is not available";
             
-            appointmentsDao.insertAppointment(appointment);
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -222,11 +261,20 @@ public class ReserveAppointmentBean implements Serializable{
     public Boolean checkIfTimeFits(String workinghours, Date appointmentdate){ //THIS IS THE STRING PARSER FOR WORKING TIMES
     //get a list of appointment dates
     //convert dates to my format
-    //string style: xxxxxxx*s/e
-    //check for SHIT
+    //string format: xxxxxxx*s/e
+    //check for 
+    //System.out.print("LOLTEST");
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-EEE hh:mm");
     String appdatetext = dateFormat.format(appointmentdate);
+    //System.err.print(appdatetext);
     String[] daysofweek = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+    String workinghoursday = workinghours;
+    String delims="[*]";
+    String[] workinghoursparsed = workinghoursday.split(delims);
+    //System.out.print(workinghoursparsed[1]);
+    String delims2="[/]";
+    String[] startandendhours = workinghoursparsed[1].split(delims2);
+   // System.out.print(startandendhours[0]);
     for(int i=0;i<=6;i++){
     
         if (appdatetext.contains(daysofweek[i])){
@@ -234,13 +282,65 @@ public class ReserveAppointmentBean implements Serializable{
             char mychar = workinghours.charAt(i);
             if(mychar == '1'){
             //day is available. Now to check for opening time. TODO LATER
-            
+                int datehour = appointmentdate.getHours();
+                int startinghour = Integer.parseInt(startandendhours[0]);
+                int endhour = Integer.parseInt(startandendhours[1]);
+                if (datehour >= startinghour && datehour <= endhour){
+                System.out.print("DATE SAVED");
+                errorMsg = "DATE SAVED";
+                return true;
+                }
+                
             }
         }
     }
-        
-        
-    return true;
+    System.out.print("DATE FAILED!");
+    errorMsg = "DATE FAILED";
+    return false;
+}
+    public Boolean checkIfTimeOverlaps(int doctorid, int durationminutes, Date appdate){
+        try{
+            ArrayList<AppointmentClass> appointments = appointmentsDao.getAppointmentByDoctorId(doctorid);
+            for (AppointmentClass apps: appointments){
+                Date updateddate = addHoursToJavaUtilDate(apps.getDate(), 1);
+                System.out.print(apps.getDate());
+                //System.out.print(updateddate);
+                System.out.print(apps.getDate().after(appdate));
+                System.out.print(apps.getDate().before((updateddate)));
+                if((appdate.after(apps.getDate()) && appdate.before((updateddate)))
+                        || apps.getDate().compareTo(appdate) == 0){
+                    //TIMING DOES NOT FIT.
+                    
+                    System.out.print("THE DATE ALREADY EXISTS. CHOOSE ANOTHER");
+                    errorMsg = "THE DATE ALREADY EXISTS. CHOOSE ANOTHER";
+                    return false;//2019-05-24 17:00
+                }
             }
+        }
+        catch (Exception ex) {
+            Logger.getLogger(AddEditEventBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.print("THE DATE IS FINE.");
+        errorMsg = "THE DATE IS FINE.";
+        return true;
+    }
     
+    public Date addHoursToJavaUtilDate(Date date, int hour){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hour);
+        return calendar.getTime();
+    }
+    
+    public void main(String [] args){        
+        try {
+            //Date mydate = new Date();
+            //System.out.print(mydate);
+            //Boolean mybool = checkIfTimeFits("1111100*3/24", mydate);
+            //System.out.print(mybool);
+        } catch (Exception ex) {
+            Logger.getLogger(AppointmentsDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -66,4 +66,20 @@ public class ViewDoctorsBean implements Serializable{
         //Logger.getLogger(ManageScheduleBean.class.getName()).log(Level.SEVERE, null, sessionBean.getSelectedItemId());
     }
     
+    public String workhoursDays(String workHours) {
+        String[] daysofweek = {"Su","Mo","Tu","We","Th","Fr","Sa"};
+        String workhoursDays = "";
+        for(int i=0;i<workHours.indexOf('*');i++){
+            if(workHours.charAt(i)=='1'){
+                workhoursDays = workhoursDays+daysofweek[i]+" ";
+            }
+        }
+        return workhoursDays;
+    }
+    
+    public String workhoursTime(String workHours) {
+        String workhoursTime = "From: "+workHours.substring( workHours.indexOf('*')+1,workHours.indexOf('/'))
+                             + " to "+workHours.substring( workHours.indexOf('/')+1);
+        return workhoursTime;
+    }
 }

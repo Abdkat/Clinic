@@ -62,12 +62,20 @@
                     </p:column>
                     
                                         
-                    <p:column headerText="#{msgs.work_hours}"
+                    <p:column headerText="#{msgs.work_hours_days}"
                               style="width:20%"
                               filterBy="#{langBean.isEnglish?doctor.workHours:doctor.workHours}"
                               filterMatchMode="contains"
                               sortBy="#{langBean.isEnglish?doctor.workHours:doctor.workHours}">                    
-                        <h:outputText value="#{langBean.isEnglish?doctor.workHours:doctor.workHours}"/>  
+                        <h:outputText value="#{viewDoctorsBean.workhoursDays(doctor.workHours)}"/>  
+                    </p:column>
+                    
+                    <p:column headerText="#{msgs.work_hours_time}"
+                              style="width:20%"
+                              filterBy="#{langBean.isEnglish?doctor.workHours:doctor.workHours}"
+                              filterMatchMode="contains"
+                              sortBy="#{langBean.isEnglish?doctor.workHours:doctor.workHours}">                    
+                        <h:outputText value="#{viewDoctorsBean.workhoursTime(doctor.workHours)}"/>  
                     </p:column>
                     
                     <p:column headerText="#{msgs.specialization}"

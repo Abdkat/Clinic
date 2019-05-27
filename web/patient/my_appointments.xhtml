@@ -63,14 +63,16 @@
                     <f:facet name="footer">
                         <p:toolbar style="border: none">
                             <p:toolbarGroup align="#{languageBean.screenLeft}">
-                                <p:commandButton value="#{msgs.delete}"
-                                                 icon="ui-icon-check"                                  
+                              <p:commandButton value="#{msgs.delete}"
+                                                 icon="ui-icon-minus"                                  
                                                  iconPos="#{langBean.styleFloat}"
                                                  styleClass="commandButton"
                                                  style="float:#{langBean.styleFloat}"
-                                                 update=":view_appointments_form:view_appointments_tbl"
-                                                 disabled="#{myAppointmentsBean.selectedAppointment==null}"                                                 
-                                                 actionListener="#{myAppointmentsBean.deleteAppointment()}" />
+                                                 update="view_appointments_tbl"
+                                                 disabled="#{myAppointmentsBean.selectedAppointment==null}"
+                                                 onclick="return confirm('#{msgs.confirm_delete_appointment}?');"
+                                                 actionListener="#{myAppointmentsBean.deleteAppointment()}"
+                                                 action="my_appointments" />
                               
                             </p:toolbarGroup>
                         </p:toolbar>

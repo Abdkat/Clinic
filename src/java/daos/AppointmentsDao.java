@@ -230,7 +230,7 @@ public class AppointmentsDao extends ConnectionDao {
     public static void main(String [] args){        
         try {
             AppointmentsDao dao = new AppointmentsDao();                
-            ArrayList<AppointmentClass> apps = dao.buildAppointments();
+            //ArrayList<AppointmentClass> apps = dao.buildAppointments();
         } catch (Exception ex) {
             Logger.getLogger(AppointmentsDao.class.getName()).log(Level.SEVERE, null, ex);
         }
