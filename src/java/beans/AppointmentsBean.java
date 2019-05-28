@@ -4,7 +4,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import models.AppointmentClass;
+import models.Appointment;
 
 /**
  *
@@ -14,18 +14,18 @@ import models.AppointmentClass;
 @Named(value = "appointmentsBean")
 @SessionScoped
 public class AppointmentsBean implements Serializable {
-    private ArrayList<AppointmentClass> appointments;
+    private ArrayList<Appointment> appointments;
     
     public AppointmentsBean() {
         appointments = new ArrayList<>();
         
     }        
 
-    public ArrayList<AppointmentClass> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(ArrayList<AppointmentClass> appointments) {
+    public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     } 
 }

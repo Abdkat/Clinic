@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.ClinicClass;
+import models.Clinic;
 /**
  *
  * @author Dr. Firas Al-Hawari
@@ -15,9 +15,9 @@ import models.ClinicClass;
  */
 public class ClinicDao extends ConnectionDao {
     
-   public ArrayList<ClinicClass> buildClinics() 
+   public ArrayList<Clinic> buildClinics() 
             throws Exception {
-        ArrayList<ClinicClass> list = new ArrayList<>();        
+        ArrayList<Clinic> list = new ArrayList<>();        
         
         try {   
             Connection conn = getConnection();
@@ -44,9 +44,9 @@ public class ClinicDao extends ConnectionDao {
             throw new SQLException(e.getMessage());
         }
     }
-    private ClinicClass populateClinics(ResultSet rs) throws SQLException {
+    private Clinic populateClinics(ResultSet rs) throws SQLException {
         
-        ClinicClass clinic = new ClinicClass();
+        Clinic clinic = new Clinic();
         
         clinic.setClinicId(rs.getInt("ID"));
         clinic.setName(rs.getString("CLINIC_NAME"));
@@ -57,7 +57,7 @@ public class ClinicDao extends ConnectionDao {
         return clinic;
     }
     
-    public void insertClinic(ClinicClass clinic) throws Exception {                
+    public void insertClinic(Clinic clinic) throws Exception {                
         try {
             Connection conn = getConnection();
             
@@ -82,7 +82,7 @@ public class ClinicDao extends ConnectionDao {
         }
     }
     
-    public void updateClinic(ClinicClass clinic) throws Exception {
+    public void updateClinic(Clinic clinic) throws Exception {
         try {
             Connection conn = getConnection();
             
@@ -124,9 +124,9 @@ public class ClinicDao extends ConnectionDao {
         }
     }
     
-    public ClinicClass getClinic(int clinicId) throws Exception {
+    public Clinic getClinic(int clinicId) throws Exception {
         try {   
-            ClinicClass clinic = null;
+            Clinic clinic = null;
             Connection conn = getConnection();
             
             String sql = "SELECT * FROM CLINIC "
@@ -149,9 +149,9 @@ public class ClinicDao extends ConnectionDao {
         }
     }
     
-    public ClinicClass getClinicByDoctorID(int doctorId) throws Exception {
+    public Clinic getClinicByDoctorID(int doctorId) throws Exception {
         try {   
-            ClinicClass clinic = null;
+            Clinic clinic = null;
             Connection conn = getConnection();
             
             String sql = "SELECT * FROM CLINIC "
@@ -178,7 +178,7 @@ public class ClinicDao extends ConnectionDao {
     public static void main(String [] args){        
         try {
            ClinicDao dao = new ClinicDao();                
-           ClinicClass doc = dao.getClinic(1);
+           Clinic doc = dao.getClinic(1);
            System.out.println(doc.toString());
         } catch (Exception ex) {
             Logger.getLogger(PatientDao.class.getName()).log(Level.SEVERE, null, ex);

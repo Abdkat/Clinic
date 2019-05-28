@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import models.PatientClass;
+import models.Patient;
 /**
  *
  * @author Firas.Alhawari
@@ -18,7 +18,7 @@ import models.PatientClass;
 @ViewScoped
 public class PatientInfoBean implements Serializable{
     private final PatientDao patientDao = new PatientDao();
-    private PatientClass patient;
+    private Patient patient;
     private int patientId;
     private String patientName;
     private String username;

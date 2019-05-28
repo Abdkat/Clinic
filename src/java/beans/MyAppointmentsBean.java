@@ -9,9 +9,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import models.AppointmentClass;
+import models.Appointment;
 import daos.DoctorDao;
-import models.DoctorClass;
+import models.Doctor;
 
 import java.util.Date;
 /**
@@ -22,9 +22,9 @@ import java.util.Date;
 @Named(value = "myAppointmentsBean")
 @ViewScoped
 public class MyAppointmentsBean implements Serializable{
-    private AppointmentClass selectedAppointment;  
+    private Appointment selectedAppointment;  
     private final AppointmentsDao appointmentsDao = new AppointmentsDao();
-    private ArrayList<AppointmentClass> appointments; 
+    private ArrayList<Appointment> appointments; 
     
     @Inject 
     private SessionBean sessionBean;
@@ -41,19 +41,19 @@ public class MyAppointmentsBean implements Serializable{
         }
     }
 
-    public AppointmentClass getSelectedAppointment() {
+    public Appointment getSelectedAppointment() {
         return selectedAppointment;
     }
 
-    public void setSelectedAppointment(AppointmentClass selectedAppointment) {
+    public void setSelectedAppointment(Appointment selectedAppointment) {
         this.selectedAppointment = selectedAppointment;
     }
 
-    public ArrayList<AppointmentClass> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(ArrayList<AppointmentClass> appointments) {
+    public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     }
 

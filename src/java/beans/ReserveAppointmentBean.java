@@ -10,11 +10,11 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import models.AppointmentClass;
-import models.PatientClass;
+import models.Appointment;
+import models.Patient;
 import daos.DoctorDao;
 import daos.PatientDao;
-import models.DoctorClass;
+import models.Doctor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ public class ReserveAppointmentBean implements Serializable{
     private final AppointmentsDao appointmentsDao = new AppointmentsDao();
     private final DoctorDao doctorDao = new DoctorDao();
     private final PatientDao patientDao = new PatientDao();
-    private DoctorClass doctor;
-    private PatientClass patient;
+    private Doctor doctor;
+    private Patient patient;
     private String nameDoctor;
     private String namePatient;
     private String clinicName;
@@ -82,11 +82,11 @@ public class ReserveAppointmentBean implements Serializable{
         }
     }
 
-    public DoctorClass getDoctor() {
+    public Doctor getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(DoctorClass doctor) {
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 
@@ -115,7 +115,7 @@ public class ReserveAppointmentBean implements Serializable{
     }
 
     
-    public PatientClass getPatient() {
+    public Patient getPatient() {
         return patient;
     }
 
@@ -127,7 +127,7 @@ public class ReserveAppointmentBean implements Serializable{
         this.errorMsg = errorMsg;
     }
     
-    public void setPatient(PatientClass patient) {
+    public void setPatient(Patient patient) {
         this.patient = patient;
     }
 
@@ -229,7 +229,7 @@ public class ReserveAppointmentBean implements Serializable{
     
     public void saveAppointment() {
         try {
-            AppointmentClass appointment = new AppointmentClass();
+            Appointment appointment = new Appointment();
             
             appointment.setDoctorId(doctor.getDoctorId());
             appointment.setPatientId(patient.getPatientId());
@@ -300,8 +300,8 @@ public class ReserveAppointmentBean implements Serializable{
 }
     public Boolean checkIfTimeOverlaps(int doctorid, int durationminutes, Date appdate){
         try{
-            ArrayList<AppointmentClass> appointments = appointmentsDao.getAppointmentByDoctorId(doctorid);
-            for (AppointmentClass apps: appointments){
+            ArrayList<Appointment> appointments = appointmentsDao.getAppointmentByDoctorId(doctorid);
+            for (Appointment apps: appointments){
                 Date updateddate = addHoursToJavaUtilDate(apps.getDate(), 1);
                 System.out.print(apps.getDate());
                 //System.out.print(updateddate);

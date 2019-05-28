@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.AppointmentClass;
+import models.Appointment;
 import beans.SessionBean;
 
 /**
@@ -19,9 +19,9 @@ import beans.SessionBean;
  */
 public class AppointmentsDao extends ConnectionDao {
     
-   public ArrayList<AppointmentClass> buildAppointments() 
+   public ArrayList<Appointment> buildAppointments() 
             throws Exception {
-        ArrayList<AppointmentClass> list = new ArrayList<>();        
+        ArrayList<Appointment> list = new ArrayList<>();        
         
         try {   
             Connection conn = getConnection();
@@ -52,8 +52,8 @@ public class AppointmentsDao extends ConnectionDao {
         }
     }
     
-    private AppointmentClass populateAppointments(ResultSet rs) throws SQLException {
-        AppointmentClass appointment = new AppointmentClass();
+    private Appointment populateAppointments(ResultSet rs) throws SQLException {
+        Appointment appointment = new Appointment();
         
         appointment.setAppointmentId(rs.getInt("ID"));
         appointment.setDoctorId(rs.getInt("DOCTOR_ID"));
@@ -68,7 +68,7 @@ public class AppointmentsDao extends ConnectionDao {
         return appointment;
     }
     
-    public void insertAppointment(AppointmentClass appointment) throws Exception {                
+    public void insertAppointment(Appointment appointment) throws Exception {                
         try {
             Connection conn = getConnection();
             
@@ -102,7 +102,7 @@ public class AppointmentsDao extends ConnectionDao {
         }
     }
     
-    public void updateAppointment(AppointmentClass appointment) throws Exception {
+    public void updateAppointment(Appointment appointment) throws Exception {
         try {
             Connection conn = getConnection();
 
@@ -141,9 +141,9 @@ public class AppointmentsDao extends ConnectionDao {
             throw new SQLException(e.getMessage());
         }
     }
-    public AppointmentClass getAppointmentById(int appointmentId) throws Exception {
+    public Appointment getAppointmentById(int appointmentId) throws Exception {
         try {   
-            AppointmentClass appointment = null;
+            Appointment appointment = null;
             Connection conn = getConnection();
 
             String sql = "SELECT * FROM APPOINTMENT "
@@ -169,9 +169,9 @@ public class AppointmentsDao extends ConnectionDao {
         }
     }
     
-    public ArrayList<AppointmentClass> getAppointmentByDoctorId(int doctorId) throws Exception {
+    public ArrayList<Appointment> getAppointmentByDoctorId(int doctorId) throws Exception {
         try {   
-            ArrayList<AppointmentClass> appointments = new ArrayList<>();
+            ArrayList<Appointment> appointments = new ArrayList<>();
             Connection conn = getConnection();
 
             String sql = "SELECT * FROM APPOINTMENT "
@@ -197,9 +197,9 @@ public class AppointmentsDao extends ConnectionDao {
         }
     }
     
-    public ArrayList<AppointmentClass> getAppointmentByPatientId(int patientId) throws Exception {
+    public ArrayList<Appointment> getAppointmentByPatientId(int patientId) throws Exception {
         try {   
-            ArrayList<AppointmentClass> appointments = new ArrayList<>();
+            ArrayList<Appointment> appointments = new ArrayList<>();
             Connection conn = getConnection();
 
             String sql = "SELECT * FROM APPOINTMENT "

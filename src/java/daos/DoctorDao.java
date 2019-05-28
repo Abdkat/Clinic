@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.DoctorClass;
-import models.ClinicClass;
+import models.Doctor;
+import models.Clinic;
 /**
  *
  * @author Dr. Firas Al-Hawari
@@ -16,9 +16,9 @@ import models.ClinicClass;
  */
 public class DoctorDao extends ConnectionDao {
     
-   public ArrayList<DoctorClass> buildDoctors() 
+   public ArrayList<Doctor> buildDoctors() 
             throws Exception {
-        ArrayList<DoctorClass> list = new ArrayList<>();        
+        ArrayList<Doctor> list = new ArrayList<>();        
         
         try {   
             Connection conn = getConnection();
@@ -45,8 +45,8 @@ public class DoctorDao extends ConnectionDao {
             throw new SQLException(e.getMessage());
         }
     }
-    private DoctorClass populateDoctors(ResultSet rs) throws SQLException {
-        DoctorClass doctor = new DoctorClass();
+    private Doctor populateDoctors(ResultSet rs) throws SQLException {
+        Doctor doctor = new Doctor();
         
         doctor.setDoctorId(rs.getInt("ID"));
         doctor.setDoctorName(rs.getString("DOCTOR_NAME"));
@@ -60,7 +60,7 @@ public class DoctorDao extends ConnectionDao {
         // Check this masterpiece 
         ClinicDao clinicDao = new ClinicDao();
         try{
-            ClinicClass clinic = clinicDao.getClinicByDoctorID(doctor.getDoctorId());
+            Clinic clinic = clinicDao.getClinicByDoctorID(doctor.getDoctorId());
             doctor.setClinic(clinic);
             //System.out.println("clinic name = "+clinic.getWorkHours());
         } catch(Exception ex){
@@ -72,7 +72,7 @@ public class DoctorDao extends ConnectionDao {
         return doctor;
     }
     
-    public void insertDoctor(DoctorClass doctor) throws Exception {                
+    public void insertDoctor(Doctor doctor) throws Exception {                
         try {
             Connection conn = getConnection();
             
@@ -103,7 +103,7 @@ public class DoctorDao extends ConnectionDao {
         }
     }
     
-    public void updateDoctor(DoctorClass doctor) throws Exception {
+    public void updateDoctor(Doctor doctor) throws Exception {
         try {
             Connection conn = getConnection();
             
@@ -151,9 +151,9 @@ public class DoctorDao extends ConnectionDao {
         }
     }
     
-    public DoctorClass getDoctor(int DoctorId) throws Exception {
+    public Doctor getDoctor(int DoctorId) throws Exception {
         try {   
-            DoctorClass doctor = null;
+            Doctor doctor = null;
             Connection conn = getConnection();
             
             String sql = "SELECT * FROM DOCTORS "
@@ -180,7 +180,7 @@ public class DoctorDao extends ConnectionDao {
     public static void main(String [] args){        
         try {
             DoctorDao dao = new DoctorDao();                
-           DoctorClass doc = dao.getDoctor(1);
+           Doctor doc = dao.getDoctor(1);
            System.out.println(doc.toString());
         } catch (Exception ex) {
             Logger.getLogger(DoctorDao.class.getName()).log(Level.SEVERE, null, ex);

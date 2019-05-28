@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import models.AppointmentClass;
+import models.Appointment;
 
 /**
  *
@@ -46,7 +46,7 @@ public class AddEditAppointmentBean implements Serializable{
             appointmentId = sessionBean.getSelectedItemId();
             
             if(appointmentId > 0){
-                AppointmentClass appointment = appointmentsDao.getAppointmentById(appointmentId);                
+                Appointment appointment = appointmentsDao.getAppointmentById(appointmentId);                
                 nameDoctor = appointment.getDoctorId();
                 namePatient = appointment.getPatientId();
                 clinicName = appointment.getClinicId();
@@ -154,7 +154,7 @@ public class AddEditAppointmentBean implements Serializable{
         
     public void saveAppointment() {
         try {
-            AppointmentClass appointment = new AppointmentClass();
+            Appointment appointment = new Appointment();
             
             appointment.setDoctorId(nameDoctor);
             appointment.setPatientId(namePatient);

@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import models.AppointmentClass;
+import models.Appointment;
 
 /**
  *
@@ -20,7 +20,7 @@ import models.AppointmentClass;
 @ViewScoped
 public class AddActionPlanBean implements Serializable{
     private final AppointmentsDao appointmentsDao = new AppointmentsDao();
-    private AppointmentClass appointment;
+    private Appointment appointment;
     private int appointmentId;
     
     private String actionPlan;
