@@ -174,7 +174,32 @@ public class ClinicDao extends ConnectionDao {
             throw new SQLException(e.getMessage());
         }
     }
+    
+    public ArrayList<Clinic> getClinicsByDoctorID(int doctorId) throws Exception {
+        try {   
+            ArrayList<Clinic> clinics = new ArrayList<>();
+            Connection conn = getConnection();
             
+            String sql = "SELECT * FROM CLINIC "
+                       + "JOIN CLINIC_DOCTOR ON (CLINIC.ID = CLINIC_DOCTOR.CLINIC_ID)"
+                       + " WHERE CLINIC_DOCTOR.DOCTOR_ID=?";                        
+            PreparedStatement ps = conn.prepareStatement(sql);            
+            ps.setInt(1, doctorId);
+            
+            ResultSet rs = ps.executeQuery();           
+            
+            while (rs.next()) {
+                clinics.add(populateClinics(rs));
+            }
+            
+            rs.close();
+            ps.close();
+            
+            return clinics;            
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage());
+        }
+    }
     public static void main(String [] args){        
         try {
            ClinicDao dao = new ClinicDao();                

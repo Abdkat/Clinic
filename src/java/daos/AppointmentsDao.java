@@ -92,7 +92,7 @@ public class AppointmentsDao extends ConnectionDao {
             ps.setInt(6, appointment.getPrice());
             ps.setInt(7, appointment.getDurationMinutes());
             
-            System.out.print("app info" + appointment.getDoctorId() + " " + appointment.getPatientId() + appointment.getClinicId());
+            System.out.print("app info " + appointment.getDoctorId() + " " + appointment.getPatientId() +" "+ appointment.getClinicId());
             
             ps.executeUpdate();
             
@@ -108,14 +108,16 @@ public class AppointmentsDao extends ConnectionDao {
 
             String sql = "UPDATE APPOINTMENT SET ACTION_PLAN=?,"
                     + " CONFIRMED=?,"
-                    + " PRICE=?"
+                    + " PRICE=?,"
+                    + " APP_DATE=?"
                     + " WHERE APPOINTMENT.ID=?";
             PreparedStatement ps = conn.prepareStatement(sql);
             
             ps.setString(1, appointment.getActionPlan());
             ps.setInt(2, appointment.getPrice());
             ps.setBoolean(3, appointment.getConfirmed());
-            ps.setInt(4, appointment.getAppointmentId());
+            ps.setTimestamp(4, new Timestamp(appointment.getDate().getTime()));
+            ps.setInt(5, appointment.getAppointmentId());
 
             ps.executeUpdate();
             

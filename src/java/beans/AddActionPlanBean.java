@@ -104,8 +104,11 @@ public class AddActionPlanBean implements Serializable{
             Logger.getLogger(AddActionPlanBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            System.out.print(this.actionPlan);
+            //System.out.print(this.actionPlan);
             appointment.setActionPlan(this.actionPlan); //THIS IS CAUSING SOME STUPID ERROR FOR SOME STUPID DAMNED REASON.
+            //System.out.print(this.date);
+            appointment.setDate(this.date);
+            appointment.setPrice(this.price);
             if (sessionBean.getSelectedItemId() > 0) {
                 appointmentsDao.updateAppointment(appointment);
             } else {

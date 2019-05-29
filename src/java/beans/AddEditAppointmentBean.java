@@ -1,6 +1,9 @@
 package beans;
 
 import daos.AppointmentsDao;
+import daos.PatientDao;
+import daos.ClinicDao;
+import daos.DoctorDao;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -11,7 +14,10 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import models.Appointment;
-
+import models.Patient;
+import models.Clinic;
+import models.Doctor;
+import java.util.ArrayList;
 /**
  *
  * @author Firas.Alhawari
@@ -21,6 +27,14 @@ import models.Appointment;
 @ViewScoped
 public class AddEditAppointmentBean implements Serializable{
     private final AppointmentsDao appointmentsDao = new AppointmentsDao();
+    private final PatientDao patientDao = new PatientDao();
+    private final ClinicDao clinicDao = new ClinicDao();
+    private final DoctorDao doctorDao = new DoctorDao();
+
+    private ArrayList<Patient> patients;
+    private Doctor doctor;
+
+    private ArrayList<Clinic> clinics;
     private int appointmentId;
     private int nameDoctor;
     private int namePatient;
@@ -44,7 +58,9 @@ public class AddEditAppointmentBean implements Serializable{
     public void init(){                
         try {
             appointmentId = sessionBean.getSelectedItemId();
-            
+            patients = patientDao.buildpatients();
+            clinics = clinicDao.getClinicsByDoctorID(sessionBean.getDoctorId());
+            doctor = doctorDao.getDoctor(sessionBean.getDoctorId());
             if(appointmentId > 0){
                 Appointment appointment = appointmentsDao.getAppointmentById(appointmentId);                
                 nameDoctor = appointment.getDoctorId();
@@ -80,6 +96,31 @@ public class AddEditAppointmentBean implements Serializable{
         this.namePatient = namePatient;
     }
 
+    public ArrayList<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(ArrayList<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public ArrayList<Clinic> getClinics() {
+        return clinics;
+    }
+
+    public void setClinics(ArrayList<Clinic> clinics) {
+        this.clinics = clinics;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    
     public int getClinicName() {
         return clinicName;
     }
@@ -156,16 +197,13 @@ public class AddEditAppointmentBean implements Serializable{
         try {
             Appointment appointment = new Appointment();
             
-            appointment.setDoctorId(nameDoctor);
+            appointment.setDoctorId(doctor.getDoctorId());
             appointment.setPatientId(namePatient);
             appointment.setClinicId(clinicName);
-            //appointment.setPatientId(patientId);
-            //appointment.setDoctorId(doctorId);
             appointment.setPrice(price);
             appointment.setDurationMinutes(durationMinutes);
             appointment.setActionPlan(actionPlan);
             appointment.setConfirmed(confirmed);
-            //appointment.setDate(new Timestamp(date.getTime()));
             appointment.setDate(date);
             if (sessionBean.getSelectedItemId() > 0) {
                 appointmentsDao.updateAppointment(appointment);

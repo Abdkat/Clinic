@@ -22,13 +22,17 @@
                                  columns="3"                              
                                  dir="#{langBean.dir}">
                         <p:outputLabel value="#{msgs.patient_name}:" for="patient_name"/>
-                        <p:inputText id="patient_name"
-                                     style="width:600px"
-                                     value="#{addEditAppointmentBean.namePatient}"                                      
-                                     required="true"
-                                     maxlength="512"
-                                     requiredMessage="#{msgs.required_msg}">
-                        </p:inputText>
+                        <p:selectOneMenu value="#{addEditAppointmentBean.namePatient}"
+                                         id="patient_name"
+                                         required="true"                                                                                  
+                                         requiredMessage=" #{msgs.required_msg}">
+                            <f:selectItem itemLabel="#{msgs.select_one}"
+                                          itemValue=""/>
+                            <f:selectItems var="patient"
+                                           value="#{addEditAppointmentBean.patients}" 
+                                           itemLabel="#{langBean.isEnglish?patient.patientName:patient.patientName}"
+                                           itemValue="#{patient.patientId}"/> 
+                        </p:selectOneMenu>
                         <h:message for="patient_name" styleClass="errorMsg"/>
                         
                         <p:outputLabel value="#{msgs.phone}:" for="phone"/>
@@ -37,41 +41,39 @@
                                      required="true"
                                      maxlength="10"  
                                      requiredMessage="#{msgs.required_msg}">
+                            <f:validateLength minimum="10" maximum="10"/>
                         </p:inputText>
                         <h:message for="phone" styleClass="errorMsg"/>        
                         
-                        <p:outputLabel value="#{msgs.doctor_name}:" for="doctor_name"/>
-                        <p:inputText id="doctor_name"
-                                     value="#{addEditAppointmentBean.nameDoctor}"
-                                     style="width:600px"
-                                     dir="#{langBean.dir}"
-                                     required="true"
-                                     maxlength="512"
-                                     requiredMessage=" #{msgs.required_msg}">
-                        </p:inputText>
+                       <p:outputLabel value="#{msgs.doctor_name}:" for="doctor_name"/>
+                       <p:outputLabel id="doctor_name" value="#{addEditAppointmentBean.doctor.doctorName}"/>
                         <h:message for="doctor_name" styleClass="errorMsg"/>               
 
                         <p:outputLabel value="#{msgs.clinic_name}:" for="clinic_name"/>
-                        <p:inputText id="clinic_name"
-                                     value="#{addEditAppointmentBean.clinicName}"
-                                     style="width:600px"
-                                     dir="#{langBean.dir}"
-                                     required="true"
-                                     maxlength="512"
-                                     requiredMessage=" #{msgs.required_msg}">
-                        </p:inputText>
+                        <p:selectOneMenu value="#{addEditAppointmentBean.clinicName}"
+                                         id="clinic_name"
+                                         required="true"                                                                                  
+                                         requiredMessage=" #{msgs.required_msg}">
+                            <f:selectItem itemLabel="#{msgs.select_one}"
+                                          itemValue=""/>
+                            <f:selectItems var="clinic"
+                                           value="#{addEditAppointmentBean.clinics}" 
+                                           itemLabel="#{langBean.isEnglish?clinic.name:climic.name}"
+                                           itemValue="#{clinic.clinicId}"/> 
+                        </p:selectOneMenu>
                         <h:message for="clinic_name" styleClass="errorMsg"/>       
 
-                        <p:outputLabel value="#{msgs.duration}:" for="place_ar"/>
-                        <p:inputText id="place_ar"
+                        <p:outputLabel value="#{msgs.duration}:" for="duration"/>
+                        <p:inputText id="duration"
                                      value="#{addEditAppointmentBean.durationMinutes}"
                                      style="width:600px"
                                      dir="#{langBean.dir}"
                                      required="true"
                                      maxlength="512"
                                      requiredMessage=" #{msgs.required_msg}">
+                            <f:validateLength minimum="10" maximum="30"/>
                         </p:inputText>
-                        <h:message for="place_ar" styleClass="errorMsg"/>
+                        <h:message for="duration" styleClass="errorMsg"/>
 
                         <p:outputLabel value="#{msgs.date}:" for="date"/>
                         <p:calendar id="date"
@@ -86,12 +88,13 @@
                         <h:message for="date" styleClass="errorMsg"/>
                         
                         <p:outputLabel value="#{msgs.price}:" for="price"/>
-                        <p:inputText id="price"
+                        <p:inputText id="price" 
                                      value="#{addEditAppointmentBean.price}"
                                      dir="#{langBean.dir}"
                                      required="true"
                                      maxlength="10"  
                                      requiredMessage="#{msgs.required_msg}">
+                            <f:validateDoubleRange minimum="0"/>
                         </p:inputText>
                         <h:message for="price" styleClass="errorMsg"/>
                         

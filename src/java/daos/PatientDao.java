@@ -24,8 +24,7 @@ public class PatientDao extends ConnectionDao {
             
             System.out.print("GOT THE STUPID CONNECTION");
             
-                String sql = "SELECT * FROM PatientS "
-                            +"JOIN CLINIC ON (APPOINTMENT.CLINIC_ID = CLINIC.ID)";    
+                String sql = "SELECT * FROM Patients ";
                 
             PreparedStatement ps = conn.prepareStatement(sql);            
 

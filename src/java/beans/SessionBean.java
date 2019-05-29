@@ -140,8 +140,8 @@ public class SessionBean implements Serializable {
         try {
             String oracleDriver = "oracle.jdbc.driver.OracleDriver";
             String oracleUrl = "jdbc:oracle:thin:@localhost:1521:xe";
-            String databaseUsername = "hamza";
-            String databasePassword = "hamza";
+            String databaseUsername = "SYSTEM";
+            String databasePassword = "password";
             Class.forName(oracleDriver).newInstance();
             Connection conn = DriverManager.getConnection(oracleUrl,databaseUsername,databasePassword);
              
